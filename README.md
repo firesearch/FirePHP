@@ -1,2 +1,4 @@
-# FirePHP
-FirePHP is a web-based interface for MySQL
+FirePHP
+=======
+
+A web interface for MySQL.
