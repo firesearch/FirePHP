@@ -1,0 +1,9 @@
+.nowrap {
+          white-space: nowrap;
+}          
+
+.hide {
+        display: none;
+}
+
+body, table, th, td
