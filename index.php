@@ -1,4 +1,37 @@
 <?php
+/* vim: set expandtab sw=4 ts=4 sts=4; */
+/**
+ *
+ * @package FirePHP
+ */
+
+ /**
+  * pass variables to child pages
+ */
+$drops = array(
+    'lang',
+    'server',
+    'collation_connection',
+    'db',
+    'table'
+);
+
+foreach ($drops as $each_drop) {
+  if (array_key_exists($each_drop, $_GET)) {
+    unset($_GET[$each_drop]);
+  }
+}
+unset($drops, $each_drop);
+
+// If we have a valid target, let's load that script instead
+if (! empty($_REQUEST['target'])
+    && is_string($_REQUEST['target'])
+    && ! preg_match('/^index/', $_REQUEST['target'])
+    && in_array($_REQUEST['target'], $goto_whitelist)
+) {
+  include $_REQUEST['target']
+  exit;
+}
 
 // Gets the default font sizes
 set_font_sizes();
@@ -24,7 +57,7 @@ $url_query = 'lang=' . $lang
            . (empty($db) ? '' : '&amp;db=' . urlencode($db));
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<!doctype html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
   <html ng-app="FirePHP">
     <head>
       <title>FirePHP</title>
@@ -34,7 +67,7 @@ $url_query = 'lang=' . $lang
         }
       </style>
     </head>
-    
+
     <frameset cols="<?php echo $cfgLeftWidth; ?>,*" rows="*">
     <frame src="left.php3?<?php echo $url_query; ?>" name="nav" frameborder="1" />
     <frame src="<?php echo (empty($db)) ? 'main.php3' : 'db_details.php3'; ?>?<?php echo $url_query; ?>" name="phpmain" />
@@ -47,4 +80,3 @@ $url_query = 'lang=' . $lang
 </frameset>
 
 </html>
-
